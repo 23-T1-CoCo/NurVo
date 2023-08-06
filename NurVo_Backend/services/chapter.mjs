@@ -1,5 +1,12 @@
 import { getTopic, getChapter } from "../db/db.mjs";
 
+
+//chapter와 topic을 매칭
+/*
+예시
+[{topic : {id: "", name: ""}, chapter : [{name: "", description: ""}, ....] }
+ {topic : {}, chapter: [{}]}, .... }]
+*/
 export async function ChapterByTopic()  {
   const topic = await getTopic();
   const chapter = await getChapter();

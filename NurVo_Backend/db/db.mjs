@@ -15,6 +15,33 @@ const pool = new pg.Pool({
   password : DB_PASSWORD,
 });
 
+//사용자 정보 불러오기
+export const getUser = async (id) => {
+  const client = await pool.connect();
+  try {
+    const user = await client.query('SELECT * FROM public.user WHERE id = $1', [id]);
+    return user.rows[0];
+  } catch (err) {
+    console.error(err);
+  } finally {
+    client.release();
+  };
+};
+
+//사용자 정보 저장하기
+export const saveUser = async (userInfo) => {
+  const client = await pool.connect();
+  try {
+    const user = await client.query('INSERT INTO public.user (id, name, email, phone_number, password) VALUES ($1, $2, $3, $4, $5)', [userInfo.id, userInfo.name, userInfo.phone_number, userInfo.email, userInfo.password]);
+    return user.rows[0];
+  } catch (err) {
+    console.error(err);
+  } finally {
+    client.release();
+  };
+};
+
+
 //topic 가지고 오는 함수
 export const getTopic = async () => {
   const client = await pool.connect();
